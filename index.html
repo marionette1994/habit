@@ -70,7 +70,7 @@ h1{font-family:var(--serif);font-weight:700;font-size:26px;margin:0;letter-spaci
 
 /* Nav */
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(251,247,236,.92);backdrop-filter:blur(8px);border-top:1px solid var(--keisen);padding:6px 0 calc(6px + env(safe-area-inset-bottom));}
-.tabs-inner{max-width:680px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);}
+.tabs-inner{max-width:680px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);}
 .tab{background:none;border:none;cursor:pointer;padding:6px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--sumi-faint);font-family:var(--serif);font-size:16px;letter-spacing:.14em;position:relative;transition:color .18s;}
 .tab .en{font-family:var(--gothic);font-size:9px;letter-spacing:.14em;font-weight:600;}
 .tab.active{color:var(--shu);}
@@ -241,6 +241,37 @@ textarea.export{width:100%;height:230px;border:1px solid var(--keisen);border-ra
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important;}}
 :focus-visible{outline:2px solid var(--ainezu);outline-offset:2px;}
+
+/* 指針（行動指針） */
+.credo-top{display:flex;gap:10px;margin:10px 0 4px;}
+.readcard{flex:none;width:118px;background:var(--washi-2);border:1px solid var(--keisen-2);border-radius:13px;padding:12px 8px;text-align:center;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.readcard .stampbig{width:48px;height:48px;border-radius:12px;border:1.5px dashed var(--keisen);display:grid;place-items:center;position:relative;}
+.readcard .stampbig span{font-family:var(--serif);font-size:22px;color:var(--shu);opacity:0;transform:scale(.5) rotate(-8deg);transition:opacity .18s,transform .18s;}
+.readcard .stampbig.done{border-style:solid;border-color:transparent;background:radial-gradient(circle at 50% 45%, rgba(184,64,44,.14), rgba(184,64,44,.05));}
+.readcard .stampbig.done span{opacity:1;transform:scale(1) rotate(-4deg);}
+.readcard .stampbig.pressing span{animation:stampin .32s cubic-bezier(.3,1.4,.5,1);}
+.readcard .rlab{font-family:var(--serif);font-size:12px;letter-spacing:.08em;color:var(--sumi);}
+.readcard .rst{font-size:11px;color:var(--shu);font-weight:600;}
+.readcard.read .rst{color:var(--shu);}
+.reflect{flex:1;background:var(--washi-2);border:1px solid var(--keisen-2);border-radius:13px;padding:12px 14px;box-shadow:var(--shadow);min-width:0;}
+.reflect .rlabel{font-size:12px;color:var(--sumi-soft);letter-spacing:.06em;}
+.reflect .rlabel span{color:var(--sumi-faint);font-size:10.5px;margin-left:6px;}
+.score{display:flex;gap:7px;margin-top:9px;}
+.score .sdot{width:31px;height:31px;border-radius:50%;border:1.5px solid var(--keisen);display:grid;place-items:center;cursor:pointer;font-family:var(--serif);font-size:13px;color:var(--sumi-faint);transition:.15s;background:var(--washi);}
+.score .sdot.on{background:var(--shu);border-color:var(--shu);color:var(--washi-2);}
+.notetoggle{background:none;border:none;color:var(--ainezu);font-family:var(--gothic);font-size:11.5px;cursor:pointer;padding:8px 0 2px;letter-spacing:.04em;}
+.notewrap{margin-top:4px;}
+.notewrap.hidden{display:none;}
+.notewrap textarea{width:100%;height:56px;border:1px solid var(--keisen);border-radius:9px;background:var(--washi);color:var(--sumi);font-family:var(--gothic);font-size:13px;padding:8px 10px;resize:vertical;}
+.credo-list{background:var(--washi-2);border:1px solid var(--keisen-2);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:2px;}
+.pline{display:flex;gap:9px;padding:10px 14px;border-bottom:1px solid var(--keisen-2);cursor:pointer;align-items:baseline;transition:background .12s;}
+.pline:last-child{border-bottom:none;}
+.pline:active{background:var(--washi-3);}
+.pline .bull{color:var(--shu);font-family:var(--serif);font-size:12px;flex:none;line-height:1.5;}
+.pline .ptext{font-size:14px;line-height:1.55;color:var(--sumi);}
+.bulkhint{font-size:11.5px;color:var(--sumi-faint);line-height:1.7;margin:2px 0 10px;letter-spacing:.02em;}
+.bulkhint code{background:var(--washi-3);padding:1px 5px;border-radius:4px;font-size:11px;}
+textarea.bulk{width:100%;height:190px;border:1px solid var(--keisen);border-radius:11px;background:var(--washi-2);color:var(--sumi);font-family:var(--gothic);font-size:13px;line-height:1.6;padding:12px;resize:vertical;}
 </style>
 </head>
 <body>
@@ -274,6 +305,11 @@ textarea.export{width:100%;height:230px;border:1px solid var(--keisen);border-ra
     <div class="gridwrap"><div id="weekGrid"></div></div>
   </section>
 
+  <section class="view" id="view-credo">
+    <div class="section-head"><h2>行動指針</h2><div class="rule"></div></div>
+    <div id="credoBody"></div>
+  </section>
+
   <section class="view" id="view-stats">
     <div class="cards" id="statCards"></div>
     <div class="panel">
@@ -283,6 +319,7 @@ textarea.export{width:100%;height:230px;border:1px solid var(--keisen);border-ra
     </div>
     <div class="panel"><h3>週ごとの達成率 <span class="note">直近8週</span></h3><div class="bars" id="bars"></div></div>
     <div class="panel"><h3>習慣ごとの記録 <span class="note">達成率・連続</span></h3><div id="hstats"></div></div>
+    <div id="credoStatsPanel"></div>
   </section>
 
   <section class="view" id="view-manage">
@@ -302,6 +339,7 @@ textarea.export{width:100%;height:230px;border:1px solid var(--keisen);border-ra
   <div class="tabs-inner">
     <button class="tab active" data-view="today">今日<span class="en">TODAY</span></button>
     <button class="tab" data-view="week">週<span class="en">WEEK</span></button>
+    <button class="tab" data-view="credo">指針<span class="en">CREDO</span></button>
     <button class="tab" data-view="stats">記録<span class="en">STATS</span></button>
     <button class="tab" data-view="manage">帳<span class="en">MANAGE</span></button>
   </div>
@@ -336,6 +374,7 @@ textarea.export{width:100%;height:230px;border:1px solid var(--keisen);border-ra
       <button data-mode="summary" class="on">サマリー（表）</button>
       <button data-mode="daily">デイリー（本日分）</button>
       <button data-mode="dataview">Dataview 用</button>
+      <button data-mode="principles">行動指針</button>
     </div>
     <textarea class="export" id="exportText" readonly></textarea>
     <div class="sheet-actions" style="margin-top:12px">
@@ -346,12 +385,42 @@ textarea.export{width:100%;height:230px;border:1px solid var(--keisen);border-ra
   </div>
 </div>
 
+<div class="scrim" id="pEditScrim">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div class="grip"></div>
+    <h3 id="pEditTitle">行動指針</h3>
+    <div class="field"><span class="lb">指針（ひとこと・抽象度は高めに）</span>
+      <input type="text" id="pText" placeholder="例：弱みより強みに目を向ける" maxlength="80"></div>
+    <div class="field"><span class="lb">カテゴリ</span><div class="groupchips" id="pCatPicker"></div></div>
+    <div class="sheet-actions">
+      <button class="btn danger" id="pDelete" style="display:none">削除</button>
+      <button class="btn ghost" id="pCancel">やめる</button>
+      <button class="btn primary" id="pSave">保存する</button>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="bulkScrim">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div class="grip"></div>
+    <h3>まとめて追加</h3>
+    <div class="bulkhint">1行につき1つの指針を貼り付けます。<code>##</code> で始まる行はカテゴリの見出しになります。行頭の <code>・</code> <code>-</code> は自動で外します。見出しが無い行は下で選んだカテゴリに入ります。</div>
+    <div class="field"><span class="lb">見出しの無い行を入れるカテゴリ</span><div class="groupchips" id="bulkCatPicker"></div></div>
+    <textarea class="bulk" id="bulkText" placeholder="## 習慣&#10;・7時間寝る&#10;・1日1万歩歩く&#10;&#10;## 思考、マインドセット&#10;・直感を大切に&#10;・一貫性を持つ"></textarea>
+    <div class="sheet-actions" style="margin-top:12px">
+      <button class="btn ghost" id="bulkClose">閉じる</button>
+      <button class="btn primary" id="bulkAdd">取り込む</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 "use strict";
 /* ============ 定数・状態 ============ */
 const LS_H='shukancho.habits', LS_L='shukancho.logs', LS_G='shukancho.groups', LS_C='shukancho.collapsed';
+const LS_P='shukancho.principles', LS_PC='shukancho.pcats', LS_R='shukancho.reviews';
 const WD=['日','月','火','水','木','金','土'];
 const PALETTE=[
   {n:'藍',c:'#3f5a6b'},{n:'苔',c:'#6f7f52'},{n:'蘇芳',c:'#8a4b52'},
@@ -364,11 +433,18 @@ let habits=load(LS_H,[]);
 let logs=load(LS_L,{});
 let groups=load(LS_G,[]);
 let collapsedMap=load(LS_C,{});
+let principles=load(LS_P,[]);
+let pcats=load(LS_PC,[]);
+let reviews=load(LS_R,{});
 let weekOffset=0;
 let editingId=null;
 let editState={days:[],color:PALETTE[0].c,mark:'',groupId:null};
 let exportMode='summary';
 let justStamped=null;
+let justRead=false;
+let editingPid=null;
+let pEditState={catId:null};
+let bulkState={catId:null};
 
 function load(k,def){try{const v=JSON.parse(localStorage.getItem(k));return v==null?def:v;}catch(e){return def;}}
 function save(){
@@ -376,6 +452,9 @@ function save(){
   localStorage.setItem(LS_L,JSON.stringify(logs));
   localStorage.setItem(LS_G,JSON.stringify(groups));
   localStorage.setItem(LS_C,JSON.stringify(collapsedMap));
+  localStorage.setItem(LS_P,JSON.stringify(principles));
+  localStorage.setItem(LS_PC,JSON.stringify(pcats));
+  localStorage.setItem(LS_R,JSON.stringify(reviews));
 }
 
 /* ============ 日付 ============ */
@@ -560,6 +639,28 @@ function renderStats(){
       <span class="rate">${r==null?'—':r+'%'}</span>
       <span class="st">連 ${s}<span class="best">最長 ${b}</span></span>`;
     hbox.appendChild(row);});}
+  renderCredoStats();
+}
+function renderCredoStats(){
+  const box=document.getElementById('credoStatsPanel');
+  const hasData=activePrinciples().length>0 || Object.keys(reviews).length>0;
+  if(!hasData){box.innerHTML='';return;}
+  const N=14;const tIso=iso(today());
+  let scored=[],reads=0;
+  for(let i=29;i>=0;i--){const k=iso(addDays(today(),-i));const r=reviews[k];if(r){if(r.score)scored.push(r.score);if(r.read)reads++;}}
+  const avg=scored.length?(scored.reduce((a,b)=>a+b,0)/scored.length):null;
+  let bars='';
+  for(let i=N-1;i>=0;i--){const d=addDays(today(),-i);const k=iso(d);const r=reviews[k]||{};const sc=r.score||0;
+    const h=sc?sc/5*100:2;
+    bars+=`<div class="col"><div class="bar ${sc?'':''}" style="height:${h}%;${sc?'':'opacity:.25'}"><span class="pct">${sc||''}</span></div><div class="lbl">${d.getMonth()+1}/${d.getDate()}</div></div>`;
+  }
+  box.innerHTML=`<div class="panel"><h3>行動指針のふりかえり <span class="note">毎朝の一読と5点評価</span></h3>
+    <div class="cards" style="margin-bottom:14px">
+      <div class="stat accent"><div class="num">${readStreak()}<span class="u">日</span></div><div class="cap">一読の連続</div></div>
+      <div class="stat"><div class="num">${avg==null?'—':avg.toFixed(1)}<span class="u">点</span></div><div class="cap">直近30日の平均</div></div>
+      <div class="stat"><div class="num">${reads}<span class="u">日</span></div><div class="cap">直近30日の一読</div></div>
+    </div>
+    <div class="bars">${bars}</div></div>`;
 }
 
 /* ============ 帳（管理） ============ */
@@ -675,6 +776,131 @@ function deleteHabit(){
   save();closeEdit();renderAll();toast('削除しました');
 }
 
+/* ============ 行動指針 ============ */
+function uid(pfx){return pfx+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function activePrinciples(){return principles.filter(p=>!p.archived).sort((a,b)=>(a.order||0)-(b.order||0));}
+function normPCats(){pcatsOrdered().forEach((c,i)=>c.order=i);}
+function pcatsOrdered(){return pcats.slice().sort((a,b)=>(a.order||0)-(b.order||0));}
+function pcatName(id){if(id==null)return '未分類';const c=pcats.find(x=>x.id===id);return c?c.name:'未分類';}
+function pcatIdsForDisplay(){return pcatsOrdered().map(c=>c.id).concat([null]);}
+function pckey(id){return 'pc_'+(id==null?'none':id);}
+function isPCol(id){return !!collapsedMap[pckey(id)];}
+function togglePCol(id){collapsedMap[pckey(id)]=!collapsedMap[pckey(id)];save();}
+function addPCat(name){const found=pcats.find(x=>x.name===name);if(found)return found;const c={id:uid('pc'),name:name,order:pcats.length};pcats.push(c);normPCats();save();return c;}
+function renamePCat(id,name){const c=pcats.find(x=>x.id===id);if(c){c.name=name;save();}}
+function deletePCat(id){principles.forEach(p=>{if(p.catId===id)p.catId=null;});pcats=pcats.filter(c=>c.id!==id);normPCats();save();}
+function movePCat(id,dir){const ord=pcatsOrdered();const i=ord.findIndex(c=>c.id===id);const j=i+dir;if(j<0||j>=ord.length)return;const a=ord[i].order,b=ord[j].order;ord[i].order=b;ord[j].order=a;save();}
+function pcatId(p){return p.catId||null;}
+
+function reviewOf(d){return reviews[iso(d)]||{};}
+function setReview(d,patch){const k=iso(d);const r=reviews[k]||{};Object.assign(r,patch);
+  if(!r.read&&!r.score&&!(r.note&&r.note.trim())){delete reviews[k];}else{reviews[k]=r;}save();}
+function readStreak(){
+  let d=today();d.setHours(0,0,0,0);
+  if(!(reviews[iso(d)]&&reviews[iso(d)].read))d=addDays(d,-1);
+  let c=0,guard=0;
+  while(guard++<2000){const k=iso(d);if(reviews[k]&&reviews[k].read)c++;else break;d=addDays(d,-1);}
+  return c;
+}
+
+function renderCredo(){
+  const box=document.getElementById('credoBody');
+  const d=today();const rv=reviewOf(d);const rs=readStreak();
+  const press=justRead&&rv.read?'pressing':'';justRead=false;
+  let html=`<div class="credo-top">
+    <button class="readcard ${rv.read?'read':''}" id="readStampBtn" aria-label="${rv.read?'一読を取り消す':'今朝の一読を記録'}">
+      <div class="stampbig ${rv.read?'done':''} ${press}"><span>読</span></div>
+      <div class="rlab">今朝の一読</div><div class="rst">連 ${rs}日</div>
+    </button>
+    <div class="reflect">
+      <div class="rlabel">今日のふりかえり<span>5点満点・感覚でOK</span></div>
+      <div class="score" id="scoreRow">${[1,2,3,4,5].map(n=>`<div class="sdot ${rv.score&&n<=rv.score?'on':''}" data-s="${n}">${n}</div>`).join('')}</div>
+      <button class="notetoggle" id="noteToggle">${rv.note?'メモを編集':'ひとことメモ ＋'}</button>
+      <div class="notewrap ${rv.note?'':'hidden'}" id="noteWrap"><textarea id="reviewNote" placeholder="気づき・ふりかえり">${esc(rv.note||'')}</textarea></div>
+    </div></div>`;
+  const active=activePrinciples();
+  if(active.length===0){
+    html+=`<div class="empty" style="margin-top:14px">行動指針はまだありません<div class="sub">「まとめて追加」で手帳やnoteの箇条書きを一度に取り込めます</div></div>`;
+  }else{
+    pcatIdsForDisplay().forEach(cid=>{
+      const list=active.filter(p=>pcatId(p)===cid);if(list.length===0)return;
+      const col=isPCol(cid);
+      html+=`<div class="ghead ${col?'col':''}" data-pc="${cid==null?'':cid}" data-none="${cid==null?1:0}"><span class="chev">${col?'▸':'▾'}</span><span class="gname">${esc(pcatName(cid))}</span><span class="gline"></span><span class="gcount">${list.length}</span></div>`;
+      if(!col){html+='<div class="credo-list">';list.forEach(p=>{html+=`<div class="pline" data-pid="${p.id}"><span class="bull">・</span><span class="ptext">${esc(p.text)}</span></div>`;});html+='</div>';}
+    });
+  }
+  html+=`<div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+    <button class="addbtn sub" id="addPrinciple" style="flex:1;min-width:130px">＋ 指針を追加</button>
+    <button class="addbtn sub" id="bulkPrinciple" style="flex:1;min-width:130px">まとめて追加</button></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+    <button class="addbtn sub" id="addPCat" style="flex:1">＋ カテゴリ</button>
+    <button class="addbtn sub" id="exportPrinciplesBtn" style="flex:1">Obsidianへ出力</button></div>`;
+  box.innerHTML=html;
+  // 一読
+  document.getElementById('readStampBtn').addEventListener('click',()=>{const now=!(reviewOf(d).read);setReview(d,{read:now});justRead=now;renderCredo();});
+  // 点数
+  box.querySelectorAll('#scoreRow .sdot').forEach(dot=>dot.addEventListener('click',()=>{const n=+dot.dataset.s;const cur=reviewOf(d).score;setReview(d,{score:cur===n?undefined:n});renderCredo();if(document.getElementById('view-stats').classList.contains('active'))renderStats();}));
+  // メモ
+  document.getElementById('noteToggle').addEventListener('click',()=>{const w=document.getElementById('noteWrap');w.classList.toggle('hidden');if(!w.classList.contains('hidden'))document.getElementById('reviewNote').focus();});
+  const nt=document.getElementById('reviewNote');if(nt)nt.addEventListener('input',()=>setReview(d,{note:nt.value}));
+  // カテゴリ折りたたみ
+  box.querySelectorAll('.ghead[data-pc]').forEach(h=>h.addEventListener('click',()=>{togglePCol(h.dataset.none==='1'?null:h.dataset.pc);renderCredo();}));
+  // 指針タップ→編集
+  box.querySelectorAll('.pline[data-pid]').forEach(l=>l.addEventListener('click',()=>openPEdit(l.dataset.pid)));
+  document.getElementById('addPrinciple').addEventListener('click',()=>openPEdit(null));
+  document.getElementById('bulkPrinciple').addEventListener('click',openBulk);
+  document.getElementById('addPCat').addEventListener('click',()=>{const v=prompt('新しいカテゴリ名（例：経営）');if(v!=null&&v.trim()){addPCat(v.trim());renderCredo();toast('カテゴリを追加しました');}});
+  document.getElementById('exportPrinciplesBtn').addEventListener('click',()=>openExport('principles'));
+}
+
+/* 指針カテゴリのチップ選択（エディタ・一括共用） */
+function renderPCatPicker(containerId,state,onlyExisting){
+  const gp=document.getElementById(containerId);gp.innerHTML='';
+  const mk=(id,name)=>{const c=document.createElement('div');c.className='gchip'+((state.catId||null)===id?' on':'');c.textContent=name;
+    c.addEventListener('click',()=>{state.catId=id;renderPCatPicker(containerId,state,onlyExisting);});return c;};
+  gp.appendChild(mk(null,'未分類'));
+  pcatsOrdered().forEach(c=>gp.appendChild(mk(c.id,c.name)));
+  const add=document.createElement('div');add.className='gchip add';add.textContent='＋ 新規';
+  add.addEventListener('click',()=>{const v=prompt('新しいカテゴリ名');if(v!=null&&v.trim()){const c=addPCat(v.trim());state.catId=c.id;renderPCatPicker(containerId,state,onlyExisting);}});
+  gp.appendChild(add);
+}
+
+function openPEdit(id){
+  editingPid=id;const del=document.getElementById('pDelete');
+  if(id){const p=principles.find(x=>x.id===id);document.getElementById('pEditTitle').textContent='指針を編みなおす';document.getElementById('pText').value=p.text;pEditState={catId:p.catId||null};del.style.display='';}
+  else{document.getElementById('pEditTitle').textContent='新しい指針';document.getElementById('pText').value='';pEditState={catId:null};del.style.display='none';}
+  renderPCatPicker('pCatPicker',pEditState);
+  document.getElementById('pEditScrim').classList.add('open');
+  setTimeout(()=>document.getElementById('pText').focus(),100);
+}
+function closePEdit(){document.getElementById('pEditScrim').classList.remove('open');editingPid=null;}
+function savePrinciple(){
+  const text=document.getElementById('pText').value.trim();
+  if(!text){toast('指針を入れてください');return;}
+  if(editingPid){const p=principles.find(x=>x.id===editingPid);p.text=text;p.catId=pEditState.catId||null;}
+  else{principles.push({id:uid('p'),text,catId:pEditState.catId||null,order:principles.length,archived:false,createdAt:iso(today())});}
+  save();closePEdit();renderCredo();toast('保存しました');
+}
+function deletePrinciple(){
+  if(!editingPid)return;if(!confirm('この指針を削除します。よろしいですか？'))return;
+  principles=principles.filter(p=>p.id!==editingPid);save();closePEdit();renderCredo();toast('削除しました');
+}
+
+function openBulk(){bulkState={catId:null};document.getElementById('bulkText').value='';renderPCatPicker('bulkCatPicker',bulkState);document.getElementById('bulkScrim').classList.add('open');setTimeout(()=>document.getElementById('bulkText').focus(),100);}
+function closeBulk(){document.getElementById('bulkScrim').classList.remove('open');}
+function runBulk(){
+  const text=document.getElementById('bulkText').value;
+  const lines=text.split(/\r?\n/);let curCat=bulkState.catId||null;let n=0;
+  lines.forEach(raw=>{
+    let line=raw.trim();if(!line)return;
+    const hm=line.match(/^#{1,6}\s*(.+)$/)||line.match(/^【(.+)】$/);
+    if(hm){const name=hm[1].trim();curCat=addPCat(name).id;return;}
+    line=line.replace(/^[・･•\-\*\u30fb\s]+/,'').trim();if(!line)return;
+    principles.push({id:uid('p'),text:line,catId:curCat,order:principles.length,archived:false,createdAt:iso(today())});n++;
+  });
+  save();closeBulk();renderCredo();toast(n+'件を取り込みました');
+}
+
 /* ============ エクスポート ============ */
 function allDatesSorted(){return Object.keys(logs).sort();}
 function exportSummary(){
@@ -724,11 +950,24 @@ function exportDataview(){
   return md;
 }
 function slug(s){return s.replace(/\s+/g,'_').replace(/[「」（）()、。・：:]/g,'').slice(0,20);}
-function renderExport(){document.getElementById('exportText').value=exportMode==='summary'?exportSummary():exportMode==='daily'?exportDaily():exportDataview();}
+function exportPrinciples(){
+  const now=iso(today());const active=activePrinciples();
+  let md=`---\ntype: action-principles\ntitle: 行動指針\ngenerated: ${now}\ncount: ${active.length}\n---\n\n# 行動指針\n\n> 毎朝の一読用。${active.length}項目。\n\n`;
+  pcatIdsForDisplay().forEach(cid=>{const list=active.filter(p=>pcatId(p)===cid);if(list.length===0)return;
+    md+=`## ${pcatName(cid)}\n\n`;list.forEach(p=>md+=`- ${p.text}\n`);md+='\n';});
+  const rdates=Object.keys(reviews).filter(k=>{const r=reviews[k];return r&&(r.score||r.read||(r.note&&r.note.trim()));}).sort();
+  if(rdates.length){
+    md+=`## ふりかえり記録\n\n| 日付 | 点数 | 一読 | メモ |\n|---|---|---|---|\n`;
+    rdates.forEach(k=>{const r=reviews[k];const d=new Date(k+'T00:00:00');md+=`| ${k}(${WD[d.getDay()]}) | ${r.score?r.score+'点':'—'} | ${r.read?'○':''} | ${(r.note||'').replace(/\n/g,' ').replace(/\|/g,'/')} |\n`;});
+  }
+  return md;
+}
+function renderExport(){document.getElementById('exportText').value=exportMode==='summary'?exportSummary():exportMode==='daily'?exportDaily():exportMode==='dataview'?exportDataview():exportPrinciples();}
+function openExport(mode){exportMode=mode;document.querySelectorAll('#exportSeg button').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode));renderExport();document.getElementById('exportScrim').classList.add('open');}
 
 /* ============ バックアップ ============ */
-function doBackup(){download('shukancho-backup-'+iso(today())+'.json',JSON.stringify({version:2,exported:iso(today()),habits,logs,groups,collapsedMap},null,2),'application/json');toast('控えを保存しました');}
-function doImport(file){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.habits||!d.logs)throw 0;if(!confirm('読み込むと現在の記録は置き換わります。よろしいですか？'))return;habits=d.habits;logs=d.logs;groups=d.groups||[];collapsedMap=d.collapsedMap||{};normGroups();save();renderAll();toast('読み込みました');}catch(e){toast('読み込めませんでした');}};r.readAsText(file);}
+function doBackup(){download('shukancho-backup-'+iso(today())+'.json',JSON.stringify({version:3,exported:iso(today()),habits,logs,groups,collapsedMap,principles,pcats,reviews},null,2),'application/json');toast('控えを保存しました');}
+function doImport(file){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.habits||!d.logs)throw 0;if(!confirm('読み込むと現在の記録は置き換わります。よろしいですか？'))return;habits=d.habits;logs=d.logs;groups=d.groups||[];collapsedMap=d.collapsedMap||{};principles=d.principles||[];pcats=d.pcats||[];reviews=d.reviews||{};normGroups();normPCats();save();renderAll();toast('読み込みました');}catch(e){toast('読み込めませんでした');}};r.readAsText(file);}
 function download(name,text,type){const blob=new Blob([text],{type:type||'text/markdown'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 
 /* ============ 共通 ============ */
@@ -738,18 +977,19 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 function switchView(v){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===v));
   document.querySelectorAll('.view').forEach(s=>s.classList.toggle('active',s.id==='view-'+v));
-  if(v==='week')renderWeek();if(v==='stats')renderStats();if(v==='manage')renderManage();
+  if(v==='week')renderWeek();if(v==='credo')renderCredo();if(v==='stats')renderStats();if(v==='manage')renderManage();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function renderAll(){renderHeader();renderToday();
   if(document.getElementById('view-week').classList.contains('active'))renderWeek();
+  if(document.getElementById('view-credo').classList.contains('active'))renderCredo();
   if(document.getElementById('view-stats').classList.contains('active'))renderStats();
   if(document.getElementById('view-manage').classList.contains('active'))renderManage();
 }
 
 /* ============ 起動 ============ */
 function boot(){
-  normGroups();
+  normGroups();normPCats();
   buildPickers();
   document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchView(t.dataset.view)));
   document.getElementById('jumpManage').addEventListener('click',()=>switchView('manage'));
@@ -762,16 +1002,24 @@ function boot(){
   document.getElementById('gAddInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('gAddBtn').click();}});
   document.getElementById('prevWeek').addEventListener('click',()=>{weekOffset--;renderWeek();});
   document.getElementById('nextWeek').addEventListener('click',()=>{weekOffset++;renderWeek();});
-  document.getElementById('exportTool').addEventListener('click',()=>{renderExport();document.getElementById('exportScrim').classList.add('open');});
+  document.getElementById('exportTool').addEventListener('click',()=>openExport('summary'));
   document.getElementById('closeExport').addEventListener('click',()=>document.getElementById('exportScrim').classList.remove('open'));
   document.getElementById('exportScrim').addEventListener('click',e=>{if(e.target.id==='exportScrim')e.currentTarget.classList.remove('open');});
   document.querySelectorAll('#exportSeg button').forEach(b=>b.addEventListener('click',()=>{exportMode=b.dataset.mode;document.querySelectorAll('#exportSeg button').forEach(x=>x.classList.toggle('on',x===b));renderExport();}));
   document.getElementById('copyExport').addEventListener('click',()=>{const t=document.getElementById('exportText');t.select();navigator.clipboard?.writeText(t.value).then(()=>toast('コピーしました'),()=>{document.execCommand('copy');toast('コピーしました');});});
-  document.getElementById('dlExport').addEventListener('click',()=>{const name=exportMode==='daily'?`習慣_${iso(today())}.md`:exportMode==='dataview'?`習慣ログ_dataview.md`:`習慣帖_サマリー_${iso(today())}.md`;download(name,document.getElementById('exportText').value);toast('.md を保存しました');});
+  document.getElementById('dlExport').addEventListener('click',()=>{const name=exportMode==='daily'?`習慣_${iso(today())}.md`:exportMode==='dataview'?`習慣ログ_dataview.md`:exportMode==='principles'?`行動指針_${iso(today())}.md`:`習慣帖_サマリー_${iso(today())}.md`;download(name,document.getElementById('exportText').value);toast('.md を保存しました');});
   document.getElementById('backupTool').addEventListener('click',doBackup);
   document.getElementById('importTool').addEventListener('click',()=>document.getElementById('importFile').click());
   document.getElementById('importFile').addEventListener('change',e=>{if(e.target.files[0])doImport(e.target.files[0]);e.target.value='';});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeEdit();document.getElementById('exportScrim').classList.remove('open');}});
+  document.getElementById('pSave').addEventListener('click',savePrinciple);
+  document.getElementById('pCancel').addEventListener('click',closePEdit);
+  document.getElementById('pDelete').addEventListener('click',deletePrinciple);
+  document.getElementById('pText').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();savePrinciple();}});
+  document.getElementById('pEditScrim').addEventListener('click',e=>{if(e.target.id==='pEditScrim')closePEdit();});
+  document.getElementById('bulkAdd').addEventListener('click',runBulk);
+  document.getElementById('bulkClose').addEventListener('click',closeBulk);
+  document.getElementById('bulkScrim').addEventListener('click',e=>{if(e.target.id==='bulkScrim')closeBulk();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeEdit();closePEdit();closeBulk();document.getElementById('exportScrim').classList.remove('open');}});
 
   if(habits.length===0 && localStorage.getItem('shukancho.init')==null){
     localStorage.setItem('shukancho.init','1');
@@ -780,6 +1028,13 @@ function boot(){
       {id:'seed1',name:'朝の体術',days:[],color:'#3f5a6b',mark:'鍛',groupId:'g_wake',order:0,archived:false,createdAt:iso(today())},
       {id:'seed2',name:'白湯を飲む',days:[],color:'#6f7f52',mark:'水',groupId:'g_wake',order:1,archived:false,createdAt:iso(today())},
       {id:'seed3',name:'読書 10分',days:[1,2,3,4,5],color:'#8a4b52',mark:'書',groupId:'g_home',order:2,archived:false,createdAt:iso(today())}
+    ];
+    pcats=[{id:'pc_mind',name:'思考・マインド',order:0},{id:'pc_work',name:'仕事',order:1}];
+    principles=[
+      {id:'ps1',text:'迷ったら、より難しい方を選ぶ',catId:'pc_mind',order:0,archived:false,createdAt:iso(today())},
+      {id:'ps2',text:'一つの考えにすがりつかない',catId:'pc_mind',order:1,archived:false,createdAt:iso(today())},
+      {id:'ps3',text:'弱みより強みに目を向ける',catId:'pc_work',order:2,archived:false,createdAt:iso(today())},
+      {id:'ps4',text:'事前に言えば説明、後から言えば言い訳',catId:'pc_work',order:3,archived:false,createdAt:iso(today())}
     ];
     save();
   }
