@@ -1,4 +1,4 @@
-const CACHE = 'shukancho-v1';
+const CACHE = 'shukancho-v2';
 const ASSETS = [
   './',
   './index.html',
